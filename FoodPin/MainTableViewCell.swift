@@ -10,15 +10,24 @@ import UIKit
 
 class MainTableViewCell: UITableViewCell {
 
+    @IBOutlet weak var likeImgView: UIImageView!
+    @IBOutlet weak var typeLabel: UILabel!
+    @IBOutlet weak var locationLabel: UILabel!
+    @IBOutlet weak var nameLabel: UILabel!
+    @IBOutlet weak var thumbnailImgView: UIImageView!
+    
+    
     override func awakeFromNib() {
         super.awakeFromNib()
-        // Initialization code
+        
+        thumbnailImgView.layer.cornerRadius = thumbnailImgView.frame.size.width/2
+        thumbnailImgView.layer.masksToBounds = true
     }
-
+    
     override func setSelected(_ selected: Bool, animated: Bool) {
         super.setSelected(selected, animated: animated)
-
-        // Configure the view for the selected state
+        
+        
     }
     
 }

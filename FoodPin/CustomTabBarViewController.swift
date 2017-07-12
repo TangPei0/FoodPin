@@ -8,28 +8,36 @@
 
 import UIKit
 
-class CustomTabBarViewController: UIViewController {
+class CustomTabBarController: UITabBarController {
 
-    override func viewDidLoad() {
-        super.viewDidLoad()
+    class func customTabBar() -> UITabBarController{
+        let mainVC = MainViewController()
+        let feedVC = FeedViewController()
+        let moreVC = MoreViewController()
+        
+        let nvc1 : UINavigationController = NVC.init(rootViewController: mainVC)
+        let nvc2 : UINavigationController = NVC.init(rootViewController: feedVC)
+        let nvc3 : UINavigationController = NVC.init(rootViewController: moreVC)
+        
+        let tabbar1 = UITabBarItem(title: "Favourite", image: UIImage(named:""), selectedImage: UIImage(named: ""))
+        let tabbar2 = UITabBarItem(title: "Feed",  image: UIImage(named:""), selectedImage: UIImage(named: ""))
+        let tabbar3 = UITabBarItem(title: "More",  image: UIImage(named:""), selectedImage: UIImage(named: ""))
+        
+        nvc1.tabBarItem = tabbar1;
+        nvc2.tabBarItem = tabbar2;
+        nvc3.tabBarItem = tabbar3;
+        
+        let tbc = UITabBarController()
+        tbc.tabBar.tintColor = UIColor(colorLiteralRed:231.0/255.0, green: 95.0/255.0, blue: 53.0/255.0, alpha: 1)
+        tbc.viewControllers = [nvc1,nvc2,nvc3];
+        return tbc
 
-        // Do any additional setup after loading the view.
-    }
-
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
     }
     
+}
 
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destinationViewController.
-        // Pass the selected object to the new view controller.
+class NVC: UINavigationController {
+    override func viewDidLoad() {
+        
     }
-    */
-
 }

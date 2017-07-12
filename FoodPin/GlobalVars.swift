@@ -7,3 +7,6 @@
 //
 
 import Foundation
+import UIKit
+
+public let kBounds = UIScreen.main.bounds
