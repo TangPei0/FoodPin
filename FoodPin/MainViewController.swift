@@ -9,6 +9,7 @@
 import UIKit
 import CoreData
 class MainViewController: UIViewController {
+    
     var hdView: UIView!
     var hdLabel: UILabel!
     
@@ -62,7 +63,6 @@ class MainViewController: UIViewController {
         
         tableView = UITableView(frame: CGRect(x: 0, y: kBounds.height*0.096, width: kBounds.width, height: kBounds.height*0.904))
         view.addSubview(tableView)
-        
         
         searchController = UISearchController(searchResultsController: nil)
         searchController.searchBar.sizeToFit()
@@ -199,7 +199,6 @@ extension MainViewController: UITableViewDataSource, UITableViewDelegate{
         alert.addAction(detailAction)
         
         if searchController.isActive {
-            self.dismiss(animated: false, completion: nil)
             self.present(alert, animated: true, completion: nil)
             
             
