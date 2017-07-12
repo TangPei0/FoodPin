@@ -128,8 +128,7 @@ extension NewRestaurantViewController: UIImagePickerControllerDelegate, UINaviga
             try context.save()
             let alert = UIAlertController(title: "添加成功", message: "", preferredStyle: .alert)
             let commitAction = UIAlertAction(title: "确定", style: .default, handler: { (action) in
-                let vc = MainViewController()
-                self.present(vc, animated: true, completion: nil)
+                UIApplication.shared.keyWindow?.rootViewController = MainViewController()
             })
             alert.addAction(commitAction)
             self.present(alert, animated: true, completion: nil)
