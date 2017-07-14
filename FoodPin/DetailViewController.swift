@@ -4,7 +4,7 @@
 //
 //  Created by 培 唐 on 2017/7/11.
 //  Copyright © 2017年 唐培. All rights reserved.
-//
+//No. 338, Jiefang Road(North),Handan County,Hebei Province
 
 import UIKit
 
@@ -24,9 +24,12 @@ class DetailViewController: UIViewController {
         tableView.dataSource = self
         tableView.register(UINib(nibName: "CustomCell", bundle: nil), forCellReuseIdentifier: "customCell")
         tableView.tableFooterView = UIView(frame:CGRect.zero)
-        tableView.estimatedRowHeight = 44
+        //自适应高度
         tableView.rowHeight = UITableViewAutomaticDimension
+        tableView.estimatedRowHeight = 44
         tableView.separatorColor = UIColor(colorLiteralRed: 240.0/255.0, green: 240.0/255.0, blue: 240.0/255.0, alpha: 0.8)
+        self.tableView.isScrollEnabled = false //tableView不可拖动
+
     }
     
     override func didReceiveMemoryWarning() {
@@ -70,7 +73,11 @@ extension DetailViewController: UITableViewDelegate,UITableViewDataSource{
             cell.fieldLabel.text = ""
             cell.valueLabel.text = ""
         }
+        
+        //cell不可被点击
+        cell.selectionStyle = UITableViewCellSelectionStyle.none
         return cell
+        
     }
     
     func showMapView(){
@@ -78,6 +85,7 @@ extension DetailViewController: UITableViewDelegate,UITableViewDataSource{
         mapVC.restaurant = restaurant
         self.present(mapVC, animated: true, completion: nil)
     }
+    
 }
 
 extension DetailViewController{
@@ -134,9 +142,6 @@ extension DetailViewController{
     func returnBtnClick(){
         self.dismiss(animated: true, completion: nil)
     }
-    
-    
-    
     
     func shareBtnClick(){
         let svc = ShareViewController()

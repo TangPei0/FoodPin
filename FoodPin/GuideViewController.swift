@@ -8,6 +8,7 @@
 
 import UIKit
 
+
 class GuideViewController: UIViewController {
 
     @IBOutlet weak var pageControl: UIPageControl!
@@ -66,7 +67,15 @@ extension GuideViewController: UIScrollViewDelegate{
     }
     
     func start(){
-        UIApplication.shared.keyWindow?.rootViewController = CustomTabBarController.customTabBar()
+        
+        ShareSDK.getUserInfo(.typeSinaWeibo){(state,user,error) in
+            
+            if state == SSDKResponseState.success {
+                print(user?.credential)
+            }
+            
+            UIApplication.shared.keyWindow?.rootViewController = CustomTabBarController.customTabBar()
+        }
     }
     
     func scrollViewDidScroll(_ scrollView: UIScrollView) {

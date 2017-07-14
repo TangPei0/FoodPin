@@ -17,9 +17,33 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
         
-        
-        
-        
+        ShareSDK.registerApp("1e72663d81d31", activePlatforms:[SSDKPlatformType.typeSinaWeibo.rawValue],
+                             onImport: { (platform : SSDKPlatformType) in
+                                switch platform
+                                {
+                                case SSDKPlatformType.typeSinaWeibo:
+                                    ShareSDKConnector.connectWeibo(WeiboSDK.classForCoder())
+                                default:
+                                    break
+                                }
+                                
+        }) { (platform : SSDKPlatformType, appInfo : NSMutableDictionary?) in
+            
+            switch platform
+            {
+            case SSDKPlatformType.typeSinaWeibo:
+                //设置新浪微博应用信息,其中authType设置为使用SSO＋Web形式授权
+                appInfo?.ssdkSetupSinaWeibo(byAppKey: WBAppKey,
+                                            appSecret : WBAppSecret,
+                                            redirectUri : wb_redirect_uri,
+                                            authType : SSDKAuthTypeBoth)
+                
+            default:
+                break
+            }
+            
+        }
+
         window = UIWindow()
         window?.backgroundColor = UIColor.white
         

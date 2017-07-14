@@ -4,7 +4,11 @@
 //
 //  Created by 培 唐 on 2017/7/11.
 //  Copyright © 2017年 唐培. All rights reserved.
-//
+//"access_token" = "2.00NmfdwBQQC4yCf1a10f85b4spZ_wB";
+//"expires_in" = 157679999;
+//"remind_in" = 157679999;
+//uid = 1782615705;
+
 
 import UIKit
 import CoreData
@@ -61,6 +65,11 @@ class MainViewController: UIViewController {
         addBtn.addTarget(self, action: #selector(addBtnClick), for: .touchUpInside)
         view.addSubview(addBtn)
         
+        let testBtn = UIButton(frame: CGRect(x:kBounds.width*0.064, y: kBounds.height*0.04, width: kBounds.width*0.075, height:kBounds.width*0.075))
+        testBtn.setTitle("test", for: .normal)
+        testBtn.addTarget(self, action: #selector(testBtnClick), for: .touchUpInside)
+        view.addSubview(testBtn)
+        
         tableView = UITableView(frame: CGRect(x: 0, y: kBounds.height*0.096, width: kBounds.width, height: kBounds.height*0.904))
         view.addSubview(tableView)
         
@@ -76,11 +85,17 @@ class MainViewController: UIViewController {
         
         searchController.searchResultsUpdater = self
         searchController.dimsBackgroundDuringPresentation = false
+        searchController.loadViewIfNeeded()
     }
     
     func addBtnClick(){
         let newVC = NewRestaurantViewController()
         self.present(newVC, animated: true, completion: nil)
+    }
+    
+    func testBtnClick(){
+        let testVC = TestViewController()
+        self.present(testVC, animated: true, completion: nil)
     }
     
     override func didReceiveMemoryWarning() {
@@ -96,7 +111,7 @@ class MainViewController: UIViewController {
     
 }
 
-//searchcontroller
+//searchController
 extension MainViewController: UISearchResultsUpdating{
     
     func filterContentForSearchText(searchText: String) {
@@ -114,6 +129,7 @@ extension MainViewController: UISearchResultsUpdating{
     
 }
 
+//tableView代理方法
 extension MainViewController: UITableViewDataSource, UITableViewDelegate{
     
     //section个数
@@ -154,7 +170,7 @@ extension MainViewController: UITableViewDataSource, UITableViewDelegate{
         return cell
     }
     
-    //
+    
     func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
         if searchController.isActive {
             return false
@@ -163,7 +179,7 @@ extension MainViewController: UITableViewDataSource, UITableViewDelegate{
         }
     }
     
-    //选中
+    //选中弹出警示框
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         
         let alert = UIAlertController(title: nil, message: "What do you want to do?", preferredStyle: .actionSheet)
@@ -180,12 +196,14 @@ extension MainViewController: UITableViewDataSource, UITableViewDelegate{
             
         }
         
+        //来过
         let isVisitedAction = UIAlertAction(title: "I've been here", style: .default) { (action) in
             let cell = tableView.cellForRow(at: indexPath)
             cell?.accessoryType = .checkmark
             self.restaurants[indexPath.row].isVisited = true
         }
         
+        //Detail页面跳转
         let detailAction = UIAlertAction(title: "Show me the restaurant's detail", style: .default) { (action) in
             let detailVC = DetailViewController()
             //detailVC.restaurant = self.restaurants[indexPath.row]
@@ -198,6 +216,7 @@ extension MainViewController: UITableViewDataSource, UITableViewDelegate{
         alert.addAction(isVisitedAction)
         alert.addAction(detailAction)
         
+        //search页面和主页警示框的显示
         if searchController.isActive {
             self.present(alert, animated: true, completion: nil)
             
@@ -231,7 +250,6 @@ extension MainViewController: UITableViewDataSource, UITableViewDelegate{
                 try context.save()
                 print("删除成功")
                 
-                
             }catch{
                 print("删除失败")
             }
@@ -242,7 +260,7 @@ extension MainViewController: UITableViewDataSource, UITableViewDelegate{
         }
     }
     
-    //编辑事件
+    //编辑事件 : 删除和分享
     func tableView(_ tableView: UITableView, editActionsForRowAt indexPath: IndexPath) -> [UITableViewRowAction]? {
         //分享项
         let shareAction = UITableViewRowAction(style: .default, title: "分享") { (action, indexPath) in
@@ -263,7 +281,6 @@ extension MainViewController: UITableViewDataSource, UITableViewDelegate{
         
         //删除
         let deleteAction = UITableViewRowAction(style: .default, title: "删除") { (action, indexPath) in
-            
             
             //删除数据的具体操作如下
             /*
@@ -289,9 +306,9 @@ extension MainViewController: UITableViewDataSource, UITableViewDelegate{
                 print("删除失败")
             }
             
+            //先移除数据再删除行
             self.restaurants.remove(at: indexPath.row)
             self.tableView.deleteRows(at: [indexPath], with: .fade)
-            
             
         }
         
@@ -305,6 +322,7 @@ extension MainViewController: UITableViewDataSource, UITableViewDelegate{
         
         return [shareAction,deleteAction]
     }
+    
     
     
     

@@ -32,15 +32,19 @@ class NewRestaurantViewController: UIViewController {
         super.viewDidLoad()
         
         setupUI()
+        
         imagePicker?.delegate = self
         
         nameTextField.delegate = self
         locationTextField.delegate = self
         typeTextField.delegate = self
         
+        //手势
         view.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(handleTap(_:))))
         
     }
+    
+    //收回键盘
     func handleTap(_ sender: UITapGestureRecognizer) {
         if sender.state == .ended {
             print("收回键盘")
@@ -67,6 +71,7 @@ extension NewRestaurantViewController: UIImagePickerControllerDelegate, UINaviga
         yesBtn.setBackgroundImage(UIImage(named:"btn1"), for: .selected)
         yesBtn.setBackgroundImage(UIImage(named:"btn2"), for: .normal)
         yesBtn.isSelected = true
+        isVisited = true
         yesBtn.addTarget(self, action: #selector(yesBtnClick), for: .touchUpInside)
         
         noBtn.setBackgroundImage(UIImage(named:"btn1"), for: .selected)
@@ -128,7 +133,10 @@ extension NewRestaurantViewController: UIImagePickerControllerDelegate, UINaviga
             try context.save()
             let alert = UIAlertController(title: "添加成功", message: "", preferredStyle: .alert)
             let commitAction = UIAlertAction(title: "确定", style: .default, handler: { (action) in
-                UIApplication.shared.keyWindow?.rootViewController = MainViewController()
+                
+                let mvc = MainViewController()
+                UIApplication.shared.keyWindow?.rootViewController = mvc
+                
             })
             alert.addAction(commitAction)
             self.present(alert, animated: true, completion: nil)
