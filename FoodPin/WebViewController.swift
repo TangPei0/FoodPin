@@ -49,9 +49,22 @@ extension WebViewController{
         webView = UIWebView(frame: CGRect(x: 0, y: kBounds.height*0.096, width: kBounds.width, height: kBounds.height*0.904))
         view.addSubview(webView)
         
-        if let url = URL(string: "http://www.baidu.com") {
-            let request = URLRequest(url: url)
-            webView.loadRequest(request)
+        //打开网址方法一: loadRequest
+//        if let url = URL(string: "http://www.baidu.com") {
+//            let request = URLRequest(url: url)
+//            webView.loadRequest(request)
+//        }
+        
+        //方法二: iOS10弃用openURL
+        //guard let url = URL(string: "http://www.fitiger.com") else{ return }
+//        if UIApplication.shared.canOpenURL(url) {
+//            UIApplication.shared.open(url, options: [:], completionHandler: nil)
+//        }
+        
+        //方法三: open(URL,options,competion:((Bool)->())?)
+        guard let url = URL(string: "http://www.fitiger.com") else{ return }
+        if UIApplication.shared.canOpenURL(url) {
+            UIApplication.shared.open(url, options: [:], completionHandler: nil)
         }
     }
     
